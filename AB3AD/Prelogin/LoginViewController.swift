@@ -25,9 +25,9 @@ class LoginViewController: UIViewController {
     @IBAction func loginButtonClickAction(_ sender: UIButton) {
         
         if userNameTxtField.text!.isEmpty {
-            print("")
-        }else   if passwordTxtField.text!.isEmpty{
-            
+             self.showAlertMessage(message: "Enter your register mobile number", title: "")
+        }else if passwordTxtField.text!.isEmpty{
+            self.showAlertMessage(message: "Enter your valid password", title: "")
         }else{
             let url = BaseUrl
             let reqParams:[String: String] = ["tag" : "login", "mobile_no" : self.userNameTxtField.text!, "password" : self.passwordTxtField.text!]
@@ -35,7 +35,11 @@ class LoginViewController: UIViewController {
                 if let data = data{
                     do {
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary{
-                            print(jsonObject.value(forKey: "status"))
+                            if let message = jsonObject.value(forKey: "status") as? String {
+                                self.showAlertMessage(message: message, title: "")
+                            }else{
+                                self.showAlertMessage(message: error!.localizedDescription, title: "")
+                            }
                         }
                     } catch let error {
                         print(error)

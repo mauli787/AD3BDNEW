@@ -29,13 +29,13 @@ class RegisterationViewController: UIViewController {
     @IBAction func signupButtonClickAction(_ sender: UIButton) {
         
         if userNameTxtField.text!.isEmpty {
-            print("")
+             self.showAlertMessage(message: "Enter your register mobile number", title: "")
         }else if passwordTxtField.text!.isEmpty{
-            
+            self.showAlertMessage(message: "Enter your valid password", title: "")
         }else if mobileNumberTxtField.text!.isEmpty{
-            
+            self.showAlertMessage(message: "Enter valid mobile number", title: "")
         }else if emailTxtField.text!.isValidEmail() == false{
-            
+            self.showAlertMessage(message: "Enter valid email id", title: "")
         }else{
             let url = BaseUrl
             let reqParams:[String: String] = ["tag" : "register", "user_name" : userNameTxtField.text!, "mobile_no" : mobileNumberTxtField.text!, "password" : self.passwordTxtField.text!,"email":emailTxtField.text!,"user_type":"customer"]
@@ -43,10 +43,15 @@ class RegisterationViewController: UIViewController {
                 if let data = data{
                     do {
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary{
-                            print(jsonObject.value(forKey: "message"))
+                            if let message = jsonObject.value(forKey: "message") as? String {
+                              self.showAlertMessage(message: message, title: "")
+                            }else{
+                                self.showAlertMessage(message: error!.localizedDescription, title: "")
+                            }
                         }
                     } catch let error {
                         print(error)
+                        self.showAlertMessage(message: error.localizedDescription, title: "")
                     }
                 }
             }
