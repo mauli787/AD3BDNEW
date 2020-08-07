@@ -37,6 +37,9 @@ class LoginViewController: UIViewController {
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary{
                             if let message = jsonObject.value(forKey: "status") as? String {
                                 self.showAlertMessage(message: message, title: "")
+                                let storyboard = UIStoryboard(name: "Home", bundle: nil)
+                                let createVC = storyboard.instantiateViewController(withIdentifier: "HomeTabViewController") as! HomeTabViewController
+                                self.navigationController?.pushViewController(createVC, animated: true)
                             }else{
                                 self.showAlertMessage(message: error!.localizedDescription, title: "")
                             }
@@ -48,6 +51,10 @@ class LoginViewController: UIViewController {
             }
         }
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     @IBAction func signupButtonClickAction(_ sender: UIButton) {
