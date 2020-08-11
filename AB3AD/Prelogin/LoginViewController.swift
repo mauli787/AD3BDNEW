@@ -13,7 +13,6 @@ let BaseUrl = "http://150.129.62.46:8081/osamaecommerce/profile.php"
 
 class LoginViewController: UIViewController {
 
-
     @IBOutlet weak var userNameTxtField: UITextField!
     @IBOutlet weak var passwordTxtField: UITextField!
     lazy var netClient : NetworkClient = NetworkClient()
